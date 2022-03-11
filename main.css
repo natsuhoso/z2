@@ -1,0 +1,38 @@
+
+html{
+	padding: 0;
+	margin: 0;
+	background-color: gray;
+}
+
+body{
+	overscroll-behavior: none;
+	padding: 0;
+	margin: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: white;
+	overflow: hidden;
+}
+
+img{
+	position: absolute;
+	/* position: fixed; */
+	display: block;
+	image-rendering: pixelated;
+	/* clip: rect(0px 16px 16px 0px); */
+	/* clip-path: inset(0px 144px 144px 0px); */
+	-webkit-user-drag: none;
+}
+
+#main{
+	width: 100%;
+	height: 100%;
+	/* width: 100vw; */
+	/* height: 100vh; */
+	position: absolute;
+	display: block;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
