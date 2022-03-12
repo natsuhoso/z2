@@ -44,7 +44,7 @@ class Main{
 		let resizetimer = null;
 		$(window).resize( ()=> { clearTimeout(resizetimer); resizetimer=setTimeout( ()=>{
 			func();
-		},100)})
+		},500)})
 	}
 	static draw(){
 
