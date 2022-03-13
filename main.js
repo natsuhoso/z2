@@ -67,7 +67,7 @@ class Main{
 			let w_block_count = 33
 			let block_size = vw/(w_block_count-1)|0
 			// let h_block_count = (vh/block_size|0) + 1
-			let h_block_count = 64
+			let h_block_count = 32
 
 			let left_margin = (w_block_count * block_size - vw) / 2
 			let top_margin = (h_block_count * block_size - vh) / 2
