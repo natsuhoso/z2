@@ -64,12 +64,13 @@ class Main{
 			let vw = $body.width()
 			let vh = $body.height()
 			
-			let w_block_count = 31
+			let w_block_count = 33
 			let block_size = vw/(w_block_count-1)|0
-			let v_block_count = (vh/block_size|0) + 1
+			// let h_block_count = (vh/block_size|0) + 1
+			let h_block_count = 64
 
 			let left_margin = (w_block_count * block_size - vw) / 2
-			let top_margin = (v_block_count * block_size - vh) / 2
+			let top_margin = (h_block_count * block_size - vh) / 2
 			$main.css({
 				'left': -left_margin,
 				'top': -top_margin,
@@ -83,7 +84,7 @@ class Main{
 			let $filter_black = $(filter_black);
 			let $filter_white = $(filter_white);
 			let $def_block = $(img);
-			for(let i=0; i<w_block_count; i++){for(let j=0; j<v_block_count; j++){
+			for(let i=0; i<w_block_count; i++){for(let j=0; j<h_block_count; j++){
 				let $block = $def_block.clone(true)
 				let block_id = map[j%16][i%16] /////////////////////////////////////////////////////////////////////////////
 				let img_y = parseInt( block_id[0] )
