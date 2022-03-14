@@ -19,6 +19,14 @@ let map = {
 	15: ['01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00'],
 }
 
+let sumpleChunk = new Map()
+for(let i=0; i<32; i++){
+	sumpleChunk.set(i, map[i%16].concat(map[i%16]))
+}
+
+function c(x,y){return `${x},${y}`}
+function mod(x,y){ return x>=0 ? x%y : x%y + y }
+
 class Block{
 	constructor(id, coordinate){
 		this.id = id;
@@ -27,14 +35,48 @@ class Block{
 }
 
 
-class Map{
-	constructor(mapdata){
-		this.data = mapdata;
+class Chunks{
+	constructor(chunksdata){
+		this.data = chunksdata;
 	}
-	scope(){
-		return map;
+	scope(w_block_count, h_block_count, block_x, block_y){
+		let chunks = this.data;
+		let chunk_x = block_x>=0 ? block_x/32|0 : (block_x/32|0) - 1;
+		let chunk_y = block_y>=0 ? block_y/32|0 : (block_y/32|0) - 1;
+		for(let i=chunk_x-1; i<=chunk_x+1; i++){
+		for(let j=chunk_y-1; j<=chunk_y+1; j++){
+			this.chunkGen(i,j)
+		}}
+		let area = new Map();
+		let center_x = 16;
+		let center_y = 16;
+		for(let i=0; i<w_block_count; i++){
+			let x = block_x + i-center_x
+			let chunk_i = x>=0 ? x/32|0 : (x/32|0)-1
+		for(let j=0; j<h_block_count; j++){
+			let y = block_y + j-center_y
+			let chunk_j = y>=0 ? y/32|0 : (y/32|0)-1
+
+			let chunk = chunks.get(c(chunk_i,chunk_j))
+			// console.log(i,j)
+			// console.log(chunk_i,chunk_j)
+			// console.log(x,mod(y,32))
+			// console.log(chunk.get(mod(y,32)))
+			let block = chunk.get(mod(y,32))[mod(x,32)]//////////////////////////////////////////
+			area.set(c(i,j), block)
+		}}
+		return area;
 	}
-	mapGen(){
+	chunkGen(x,y){
+		let chunks = this.data;
+		if(chunks.has(`${x},${y}`)){
+			return 0;
+		}
+		if(x==0 && y==0){
+			chunks.set(`${x},${y}`, sumpleChunk)
+		}else{
+			chunks.set(`${x},${y}`, sumpleChunk)
+		}
 		return 0;
 	}
 }
@@ -44,9 +86,9 @@ class Main{
 		let resizetimer = null;
 		$(window).resize( ()=> { clearTimeout(resizetimer); resizetimer=setTimeout( ()=>{
 			func();
-		},500)})
+		},1000)})
 	}
-	static draw(){
+	static draw(chunks){
 
 
 		let $body = $('body')
@@ -60,7 +102,7 @@ class Main{
 		let img = new Image();
 		img.src = 'img/test.png';
 
-		function drawBlocks(){
+		function drawBlocks(x,y){
 			let vw = $body.width()
 			let vh = $body.height()
 			
@@ -68,6 +110,8 @@ class Main{
 			let block_size = vw/(w_block_count-1)|0
 			// let h_block_count = (vh/block_size|0) + 1
 			let h_block_count = 32
+
+			let area = chunks.scope(w_block_count, h_block_count, x, y)
 
 			let left_margin = (w_block_count * block_size - vw) / 2
 			let top_margin = (h_block_count * block_size - vh) / 2
@@ -86,7 +130,8 @@ class Main{
 			let $def_block = $(img);
 			for(let i=0; i<w_block_count; i++){for(let j=0; j<h_block_count; j++){
 				let $block = $def_block.clone(true)
-				let block_id = map[j%16][i%16] /////////////////////////////////////////////////////////////////////////////
+				// let block_id = map[j%16][i%16] /////////////////////////////////////////////////////////////////////////////
+				let block_id = area.get(c(i,j))////////////////////////////////////////////////////////////////////////
 				let img_y = parseInt( block_id[0] )
 				let img_x = parseInt( block_id.slice(1) )
 
@@ -155,17 +200,26 @@ class Main{
 
 		}
 
-		img.onload = drawBlocks
+		img.onload = function(){
+			drawBlocks(0,0)
+		}
 		this.onResize(function(){
 			$main.html('')
-			drawBlocks()
+			drawBlocks(0,0)
 		})
 
 
 	}
 	static init(){
+		
+		// 既存のデータ読み込み
 
-		this.draw();
+		// 既存のデータがない場合、Chunksを生成
+		let chunks = new Chunks(new Map())
+		chunks.chunkGen(0,0)
+
+		// Chunksを描画・メインの関数
+		this.draw(chunks);
 
 	}
 }
