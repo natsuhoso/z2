@@ -208,7 +208,7 @@ class Main{
 			drawBlocks(0,0)
 		})
 		$(window).keydown(function(e){
-			if(e.key='ArrowLeft'){
+			if(e.key=='ArrowLeft'){
 				e.preventDefault();
 				$main.html('')
 				drawBlocks(1,0)
