@@ -200,15 +200,15 @@ class Main{
 
 		}
 
+		let x=0;
+		let y=0;
 		img.onload = function(){
-			drawBlocks(0,0)
+			drawBlocks(x,y)
 		}
 		this.onResize(function(){
 			$main.html('')
-			drawBlocks(0,0)
+			drawBlocks(x,y)
 		})
-		let x=0;
-		let y=0;
 		$(window).keydown(function(e){
 			if(e.key=='ArrowLeft'){
 				e.preventDefault();
