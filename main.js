@@ -156,44 +156,44 @@ class Main{
 				$main.append($block)
 
 
-				if(img_x==0){
-					let $f_black = $filter_black.clone(true)
-					let $f_white = $filter_white.clone(true)
-					let $f_black2 = $filter_black.clone(true)
-					let $f_white2 = $filter_white.clone(true)
-					$f_black.css({
-						'width': `${block_size}px`,
-						'left': `${i*block_size}px`,
-						'top': `${j*block_size}px`,
-						'opacity': '0.2',
-						'clipPath': 'polygon(0% 100%, 6.25% 93.75%, 93.75% 93.75%, 100% 100%)'
-					})
-					$f_white.css({
-						'width': `${block_size}px`,
-						'left': `${i*block_size}px`,
-						'top': `${j*block_size}px`,
-						'opacity': '0.2',
-						'clipPath': 'polygon(0% 0%, 6.25% 6.25%, 93.75% 6.25%, 100% 0%)'
-					})
-					$f_black2.css({
-						'width': `${block_size}px`,
-						'left': `${i*block_size}px`,
-						'top': `${j*block_size}px`,
-						'opacity': '0.1',
-						'clipPath': 'polygon(100% 0%, 93.75% 6.25%, 93.75% 93.75%, 100% 100%)'
-					})
-					$f_white2.css({
-						'width': `${block_size}px`,
-						'left': `${i*block_size}px`,
-						'top': `${j*block_size}px`,
-						'opacity': '0.1',
-						'clipPath': 'polygon(0% 0%, 6.25% 6.25%, 6.25% 93.75%, 0% 100%)'
-					})
-					$main.append($f_black)
-					$main.append($f_white)
-					$main.append($f_black2)
-					$main.append($f_white2)
-				}
+				// if(img_x==0){
+				// 	let $f_black = $filter_black.clone(true)
+				// 	let $f_white = $filter_white.clone(true)
+				// 	let $f_black2 = $filter_black.clone(true)
+				// 	let $f_white2 = $filter_white.clone(true)
+				// 	$f_black.css({
+				// 		'width': `${block_size}px`,
+				// 		'left': `${i*block_size}px`,
+				// 		'top': `${j*block_size}px`,
+				// 		'opacity': '0.2',
+				// 		'clipPath': 'polygon(0% 100%, 6.25% 93.75%, 93.75% 93.75%, 100% 100%)'
+				// 	})
+				// 	$f_white.css({
+				// 		'width': `${block_size}px`,
+				// 		'left': `${i*block_size}px`,
+				// 		'top': `${j*block_size}px`,
+				// 		'opacity': '0.2',
+				// 		'clipPath': 'polygon(0% 0%, 6.25% 6.25%, 93.75% 6.25%, 100% 0%)'
+				// 	})
+				// 	$f_black2.css({
+				// 		'width': `${block_size}px`,
+				// 		'left': `${i*block_size}px`,
+				// 		'top': `${j*block_size}px`,
+				// 		'opacity': '0.1',
+				// 		'clipPath': 'polygon(100% 0%, 93.75% 6.25%, 93.75% 93.75%, 100% 100%)'
+				// 	})
+				// 	$f_white2.css({
+				// 		'width': `${block_size}px`,
+				// 		'left': `${i*block_size}px`,
+				// 		'top': `${j*block_size}px`,
+				// 		'opacity': '0.1',
+				// 		'clipPath': 'polygon(0% 0%, 6.25% 6.25%, 6.25% 93.75%, 0% 100%)'
+				// 	})
+				// 	$main.append($f_black)
+				// 	$main.append($f_white)
+				// 	$main.append($f_black2)
+				// 	$main.append($f_white2)
+				// }
 
 			}}
 
@@ -207,11 +207,29 @@ class Main{
 			$main.html('')
 			drawBlocks(0,0)
 		})
+		let x=0;
+		let y=0;
 		$(window).keydown(function(e){
 			if(e.key=='ArrowLeft'){
 				e.preventDefault();
 				$main.html('')
-				drawBlocks(1,0)
+				x=x-1
+				drawBlocks(x,y)
+			}else if(e.key=='ArrowRight'){
+				e.preventDefault();
+				$main.html('')
+				x=x+1
+				drawBlocks(x,y)
+			}else if(e.key=='ArrowDown'){
+				e.preventDefault();
+				$main.html('')
+				y=y+1
+				drawBlocks(x,y)
+			}else if(e.key=='ArrowUp'){
+				e.preventDefault();
+				$main.html('')
+				y=y-1
+				drawBlocks(x,y)
 			}
 		})
 
