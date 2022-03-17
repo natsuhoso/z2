@@ -25,7 +25,7 @@ for(let i=0; i<32; i++){
 }
 
 function c(x,y){return `${x},${y}`}
-function mod(x,y){ return x>=0 ? x%y : x%y + y }
+function mod(x,y){ return x%y>=0 ? x%y : x%y + y }
 
 class Block{
 	constructor(id, coordinate){
