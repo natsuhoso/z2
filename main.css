@@ -36,3 +36,13 @@ img{
 	margin: 0;
 	overflow: hidden;
 }
+
+/* .shadowblock::after{
+	content: url('img/filter_black.png');
+	color: black;
+	position:absolute;
+	display: block;
+	width:100%;
+	z-index: 1000000;
+	clip-path: polygon(0% 100%, 6.25% 93.75%, 93.75% 93.75%, 100% 100%);
+} */
