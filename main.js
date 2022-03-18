@@ -69,13 +69,13 @@ class Chunks{
 	}
 	chunkGen(x,y){
 		let chunks = this.data;
-		if(chunks.has(`${x},${y}`)){
+		if(chunks.has(c(x,y))){
 			return 0;
 		}
 		if(x==0 && y==0){
-			chunks.set(`${x},${y}`, sumpleChunk)
+			chunks.set(c(x,y), sumpleChunk)
 		}else{
-			chunks.set(`${x},${y}`, sumpleChunk)
+			chunks.set(c(x,y), sumpleChunk)
 		}
 		return 0;
 	}
