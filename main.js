@@ -127,8 +127,8 @@ class Main{
 			let tmp_h = block_size * img.height/16
 
 
-			let $filter_black = $(filter_black);
-			let $filter_white = $(filter_white);
+			// let $filter_black = $(filter_black);
+			// let $filter_white = $(filter_white);
 			let $def_block = $(img);
 			for(let i=0; i<w_block_count; i++){for(let j=0; j<h_block_count; j++){
 				let this_x = x + i-center_x

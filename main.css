@@ -46,3 +46,13 @@ img{
 	z-index: 1000000;
 	clip-path: polygon(0% 100%, 6.25% 93.75%, 93.75% 93.75%, 100% 100%);
 } */
+
+.testblock{
+	display: block;
+	position: relative;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+}
