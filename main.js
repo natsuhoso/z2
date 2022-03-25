@@ -95,23 +95,32 @@ class Main{
 		let $main = $('#main')
 		$main.html('')
 
-		let filter_black = new Image();
-		let filter_white = new Image();
-		filter_black.src = 'img/filter_black.png'
-		filter_white.src = 'img/filter_white.png'
+		// let filter_black = new Image();
+		// let filter_white = new Image();
+		// filter_black.src = 'img/filter_black.png'
+		// filter_white.src = 'img/filter_white.png'
 		let img = new Image();
 		img.src = 'img/test.png';
+		let $def_block = $(img);
+		let w_block_count = 33
+		let h_block_count = 32
+		let center_x = 16;
+		let center_y = 16;
+		let blocklist = []
+		for(let i=0; i<w_block_count; i++){for(let j=0; j<h_block_count; j++){
+			blocklist[i + j*w_block_count] = $def_block.clone(true)
+		}}
 
 		function drawBlocks(x,y){
 			let vw = $body.width()
 			let vh = $body.height()
 			
-			let w_block_count = 33
+			// let w_block_count = 33
 			let block_size = vw/(w_block_count-1)|0
 			// let h_block_count = (vh/block_size|0) + 1
-			let h_block_count = 32
-			let center_x = 16;
-			let center_y = 16;
+			// let h_block_count = 32
+			// let center_x = 16;
+			// let center_y = 16;
 
 			let area = chunks.scope(w_block_count, h_block_count, center_x, center_y, x, y)
 
@@ -129,11 +138,12 @@ class Main{
 
 			// let $filter_black = $(filter_black);
 			// let $filter_white = $(filter_white);
-			let $def_block = $(img);
+			// let $def_block = $(img);
 			for(let i=0; i<w_block_count; i++){for(let j=0; j<h_block_count; j++){
 				let this_x = x + i-center_x
 				let this_y = y + j-center_y
-				let $block = $def_block.clone(true)
+				// let $block = $def_block.clone(true)
+				let $block = blocklist[i + j*w_block_count]
 				// let block_id = map[j%16][i%16] /////////////////////////////////////////////////////////////////////////////
 				let block_id = area.get(c(i,j))////////////////////////////////////////////////////////////////////////
 				let img_y = parseInt( block_id[0] )
@@ -152,6 +162,20 @@ class Main{
 					// 'opacity': '0.5'
 				})
 
+				// if(this_x==0 && this_y==-1){
+				// 	$block=$('<div>')
+				// 	$block.addClass('testblock')
+				// 	$block.css({
+				// 		'display': 'block',
+				// 		'position': 'relative',
+				// 		'width': `${block_size/4}px`,
+				// 		'height': `${block_size/4}px`,
+				// 		'left': `${i * block_size -block_size/4}px`,
+				// 		'top': `${j * block_size -block_size/4}px`,
+				// 		'background-color': 'transparent',
+				// 		'box-shadow': `${block_size/4}px ${block_size/4}px #58be89`
+				// 	})
+				// }
 				// $block.click(function(){
 				// 	console.log(this_x)
 				// 	console.log(this_y)
@@ -161,33 +185,53 @@ class Main{
 
 
 				// if(img_x==0){
-				// 	let $f_black = $filter_black.clone(true)
-				// 	let $f_white = $filter_white.clone(true)
-				// 	let $f_black2 = $filter_black.clone(true)
-				// 	let $f_white2 = $filter_white.clone(true)
+				// 	// let $f_black = $filter_black.clone(true)
+				// 	// let $f_white = $filter_white.clone(true)
+				// 	// let $f_black2 = $filter_black.clone(true)
+				// 	// let $f_white2 = $filter_white.clone(true)
+				// 	let $f_black = $('<div>')
+				// 	let $f_white = $('<div>')
+				// 	let $f_black2 = $('<div>')
+				// 	let $f_white2 = $('<div>')
 				// 	$f_black.css({
+				// 		'display': 'block',
+				// 		'position': 'relative',
+				// 		'background-color': 'black',
 				// 		'width': `${block_size}px`,
+				// 		'height': `${block_size}px`,
 				// 		'left': `${i*block_size}px`,
 				// 		'top': `${j*block_size}px`,
 				// 		'opacity': '0.2',
 				// 		'clipPath': 'polygon(0% 100%, 6.25% 93.75%, 93.75% 93.75%, 100% 100%)'
 				// 	})
 				// 	$f_white.css({
+				// 		'display': 'block',
+				// 		'position': 'relative',
+				// 		'background-color': 'white',
 				// 		'width': `${block_size}px`,
+				// 		'height': `${block_size}px`,
 				// 		'left': `${i*block_size}px`,
 				// 		'top': `${j*block_size}px`,
 				// 		'opacity': '0.2',
 				// 		'clipPath': 'polygon(0% 0%, 6.25% 6.25%, 93.75% 6.25%, 100% 0%)'
 				// 	})
 				// 	$f_black2.css({
+				// 		'display': 'block',
+				// 		'position': 'relative',
+				// 		'background-color': 'black',
 				// 		'width': `${block_size}px`,
+				// 		'height': `${block_size}px`,
 				// 		'left': `${i*block_size}px`,
 				// 		'top': `${j*block_size}px`,
 				// 		'opacity': '0.1',
 				// 		'clipPath': 'polygon(100% 0%, 93.75% 6.25%, 93.75% 93.75%, 100% 100%)'
 				// 	})
 				// 	$f_white2.css({
+				// 		'display': 'block',
+				// 		'position': 'relative',
+				// 		'background-color': 'white',
 				// 		'width': `${block_size}px`,
+				// 		'height': `${block_size}px`,
 				// 		'left': `${i*block_size}px`,
 				// 		'top': `${j*block_size}px`,
 				// 		'opacity': '0.1',
