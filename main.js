@@ -39,7 +39,7 @@ class Chunks{
 	constructor(chunksdata){
 		this.data = chunksdata;
 	}
-	scope(w_block_count, h_block_count, block_x, block_y){
+	scope(w_block_count, h_block_count, center_x, center_y, block_x, block_y){
 		let chunks = this.data;
 		let chunk_x = block_x>=0 ? block_x/32|0 : (block_x/32|0) - 1;
 		let chunk_y = block_y>=0 ? block_y/32|0 : (block_y/32|0) - 1;
@@ -48,8 +48,8 @@ class Chunks{
 			this.chunkGen(i,j)
 		}}
 		let area = new Map();
-		let center_x = 16;
-		let center_y = 16;
+		// let center_x = 16;
+		// let center_y = 16;
 		for(let i=0; i<w_block_count; i++){
 			let x = block_x + i-center_x
 			let chunk_i = x>=0 ? x/32|0 : (x/32|0)-1
@@ -110,8 +110,10 @@ class Main{
 			let block_size = vw/(w_block_count-1)|0
 			// let h_block_count = (vh/block_size|0) + 1
 			let h_block_count = 32
+			let center_x = 16;
+			let center_y = 16;
 
-			let area = chunks.scope(w_block_count, h_block_count, x, y)
+			let area = chunks.scope(w_block_count, h_block_count, center_x, center_y, x, y)
 
 			let left_margin = (w_block_count * block_size - vw) / 2
 			let top_margin = (h_block_count * block_size - vh) / 2
@@ -129,6 +131,8 @@ class Main{
 			let $filter_white = $(filter_white);
 			let $def_block = $(img);
 			for(let i=0; i<w_block_count; i++){for(let j=0; j<h_block_count; j++){
+				let this_x = x + i-center_x
+				let this_y = y + j-center_y
 				let $block = $def_block.clone(true)
 				// let block_id = map[j%16][i%16] /////////////////////////////////////////////////////////////////////////////
 				let block_id = area.get(c(i,j))////////////////////////////////////////////////////////////////////////
@@ -149,8 +153,8 @@ class Main{
 				})
 
 				// $block.click(function(){
-				// 	console.log(i)
-				// 	console.log(j)
+				// 	console.log(this_x)
+				// 	console.log(this_y)
 				// })
 
 				$main.append($block)
