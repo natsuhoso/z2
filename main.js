@@ -155,6 +155,7 @@ class Main{
 				let inset_left = block_size * img_x
 
 				$block.css({
+					'background-color': 'white',
 					'width': `${tmp_w}px`,
 					'left': `${i * block_size - block_size * img_x}px`,
 					'top': `${j * block_size - block_size * img_y}px`,
