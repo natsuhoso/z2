@@ -162,6 +162,9 @@ class Main{
 					// 'opacity': '0.5'
 				})
 
+				if(this_x==0 && this_y==-1){
+					$block.css('background-color','black')
+				}
 				// if(this_x==0 && this_y==-1){
 				// 	$block=$('<div>')
 				// 	$block.addClass('testblock')
