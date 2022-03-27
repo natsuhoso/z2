@@ -111,7 +111,7 @@ class Main{
 			blocklist[i + j*w_block_count] = $def_block.clone(true)
 		}}
 
-		function drawBlocks(x,y){
+		function drawBlocks(x,y, isFirst=false){
 			let vw = $body.width()
 			let vh = $body.height()
 			
@@ -155,7 +155,7 @@ class Main{
 				let inset_left = block_size * img_x
 
 				$block.css({
-					'background-color': 'white',
+					'background-color': 'transparent',
 					'width': `${tmp_w}px`,
 					'left': `${i * block_size - block_size * img_x}px`,
 					'top': `${j * block_size - block_size * img_y}px`,
@@ -185,7 +185,9 @@ class Main{
 				// 	console.log(this_y)
 				// })
 
-				$main.append($block)
+				if(isFirst){
+					$main.append($block)
+				}
 
 
 				// if(img_x==0){
@@ -255,31 +257,27 @@ class Main{
 		let x=0;
 		let y=0;
 		img.onload = function(){
-			drawBlocks(x,y)
+			drawBlocks(x,y,true)
 		}
 		this.onResize(function(){
-			$main.html('')
+			// $main.html('')
 			drawBlocks(x,y)
 		})
 		$(window).keydown(function(e){
 			if(e.key=='ArrowLeft'){
 				e.preventDefault();
-				$main.html('')
 				x=x-1
 				drawBlocks(x,y)
 			}else if(e.key=='ArrowRight'){
 				e.preventDefault();
-				$main.html('')
 				x=x+1
 				drawBlocks(x,y)
 			}else if(e.key=='ArrowDown'){
 				e.preventDefault();
-				$main.html('')
 				y=y+1
 				drawBlocks(x,y)
 			}else if(e.key=='ArrowUp'){
 				e.preventDefault();
-				$main.html('')
 				y=y-1
 				drawBlocks(x,y)
 			}
