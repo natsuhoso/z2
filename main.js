@@ -18,10 +18,32 @@ let map = {
 	14: ['00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01'],
 	15: ['01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00'],
 }
+let map2 = {
+	00: ['00', '10', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01'],
+	01: ['01', '10', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00'],
+	02: ['00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01'],
+	03: ['01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00'],
+	04: ['00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01'],
+	05: ['01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00'],
+	06: ['00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01'],
+	07: ['01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00'],
+	08: ['00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01'],
+	09: ['01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00'],
+	10: ['00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01'],
+	11: ['01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00'],
+	12: ['00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01'],
+	13: ['01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00'],
+	14: ['00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01'],
+	15: ['01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00'],
+}
 
 let sumpleChunk = new Map()
 for(let i=0; i<32; i++){
 	sumpleChunk.set(i, map[i%16].concat(map[i%16]))
+}
+let sumpleChunk2 = new Map()
+for(let i=0; i<32; i++){
+	sumpleChunk2.set(i, map2[i%16].concat(map2[i%16]))
 }
 
 function c(x,y){return `${x},${y}`}
@@ -58,12 +80,9 @@ class Chunks{
 			let chunk_j = y>=0 ? y/32|0 : (y/32|0)-1
 
 			let chunk = chunks.get(c(chunk_i,chunk_j))
-			// console.log(i,j)
-			// console.log(chunk_i,chunk_j)
-			// console.log(x,mod(y,32))
-			// console.log(chunk.get(mod(y,32)))
-			let block = chunk.get(mod(y,32))[mod(x,32)]//////////////////////////////////////////
-			area.set(c(i,j), block)
+			let block0 = chunk[0].get(mod(y,32))[mod(x,32)]//////////////////////////////////////////
+			let block1 = chunk[1].get(mod(y,32))[mod(x,32)]//////////////////////////////////////////
+			area.set(c(i,j), [block0,block1])
 		}}
 		return area;
 	}
@@ -73,9 +92,9 @@ class Chunks{
 			return 0;
 		}
 		if(x==0 && y==0){
-			chunks.set(c(x,y), sumpleChunk)
+			chunks.set(c(x,y), [sumpleChunk,sumpleChunk2])
 		}else{
-			chunks.set(c(x,y), sumpleChunk)
+			chunks.set(c(x,y), [sumpleChunk,sumpleChunk2])
 		}
 		return 0;
 	}
@@ -108,10 +127,11 @@ class Main{
 		let center_y = 16;
 		let blocklist = []
 		for(let i=0; i<w_block_count; i++){for(let j=0; j<h_block_count; j++){
-			blocklist[i + j*w_block_count] = $def_block.clone(true)
+			blocklist[(i + j*w_block_count)*2] = $def_block.clone(true)
+			blocklist[(i + j*w_block_count)*2+1] = $def_block.clone(true)
 		}}
 
-		function drawBlocks(x,y, isFirst=false){
+		function drawBlocks(x,y,z, isFirst=false){
 			let vw = $body.width()
 			let vh = $body.height()
 			
@@ -139,13 +159,13 @@ class Main{
 			// let $filter_black = $(filter_black);
 			// let $filter_white = $(filter_white);
 			// let $def_block = $(img);
-			for(let i=0; i<w_block_count; i++){for(let j=0; j<h_block_count; j++){
+			for(let i=0; i<w_block_count; i++){for(let j=0; j<h_block_count; j++){for(let k=0; k<2; k++){
 				let this_x = x + i-center_x
 				let this_y = y + j-center_y
 				// let $block = $def_block.clone(true)
-				let $block = blocklist[i + j*w_block_count]
+				let $block = blocklist[(i + j*w_block_count)*2+k]
 				// let block_id = map[j%16][i%16] /////////////////////////////////////////////////////////////////////////////
-				let block_id = area.get(c(i,j))////////////////////////////////////////////////////////////////////////
+				let block_id = area.get(c(i,j))[k]////////////////////////////////////////////////////////////////////////
 				let img_y = parseInt( block_id[0] )
 				let img_x = parseInt( block_id.slice(1) )
 
@@ -154,13 +174,15 @@ class Main{
 				let inset_bottom = tmp_h - block_size * (img_y+1)
 				let inset_left = block_size * img_x
 
+				let opacity = (z==0 && k==1) ? 0.5 : 1;
+
 				$block.css({
 					'background-color': 'transparent',
 					'width': `${tmp_w}px`,
 					'left': `${i * block_size - block_size * img_x}px`,
 					'top': `${j * block_size - block_size * img_y}px`,
 					'clipPath': `inset(${inset_top}px ${inset_right}px ${inset_bottom}px ${inset_left}px)`,
-					// 'opacity': '0.5'
+					'opacity': `${opacity}`
 				})
 
 				if(this_x==0 && this_y==-1){
@@ -249,37 +271,40 @@ class Main{
 				// 	$main.append($f_white2)
 				// }
 
-			}}
+			}}}
 
 
 		}
 
 		let x=0;
 		let y=0;
+		let z=0;
 		img.onload = function(){
-			drawBlocks(x,y,true)
+			drawBlocks(x,y,z,true)
 		}
 		this.onResize(function(){
 			// $main.html('')
-			drawBlocks(x,y)
+			drawBlocks(x,y,z)
 		})
 		$(window).keydown(function(e){
 			if(e.key=='ArrowLeft'){
 				e.preventDefault();
 				x=x-1
-				drawBlocks(x,y)
+				drawBlocks(x,y,z)
 			}else if(e.key=='ArrowRight'){
 				e.preventDefault();
 				x=x+1
-				drawBlocks(x,y)
+				drawBlocks(x,y,z)
 			}else if(e.key=='ArrowDown'){
 				e.preventDefault();
-				y=y+1
-				drawBlocks(x,y)
+				// y=y+1
+				z=1
+				drawBlocks(x,y,z)
 			}else if(e.key=='ArrowUp'){
 				e.preventDefault();
-				y=y-1
-				drawBlocks(x,y)
+				// y=y-1
+				z=0
+				drawBlocks(x,y,z)
 			}
 		})
 
