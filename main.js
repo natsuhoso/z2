@@ -19,7 +19,7 @@ let map = {
 	15: ['01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00'],
 }
 let map2 = {
-	00: ['00', '10', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01'],
+	00: ['11', '10', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01'],
 	01: ['01', '10', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00'],
 	02: ['00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01'],
 	03: ['01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00', '01', '00'],
@@ -131,7 +131,7 @@ class Main{
 			blocklist[(i + j*w_block_count)*2+1] = $def_block.clone(true)
 		}}
 
-		function drawBlocks(x,y,z, isFirst=false){
+		function drawBlocks(x,y, isFirst=false){
 			let vw = $body.width()
 			let vh = $body.height()
 			
@@ -174,19 +174,22 @@ class Main{
 				let inset_bottom = tmp_h - block_size * (img_y+1)
 				let inset_left = block_size * img_x
 
-				let opacity = (z==0 && k==1) ? 0.5 : 1;
+				// let opacity = (z==0 && k==1) ? 0.5 : 1;
+				let bgc = k==0 ? 'transparent' : 'rgba(0,0,100,0.2)'
 
 				$block.css({
-					'background-color': 'transparent',
+					'background-color': bgc,
 					'width': `${tmp_w}px`,
 					'left': `${i * block_size - block_size * img_x}px`,
 					'top': `${j * block_size - block_size * img_y}px`,
 					'clipPath': `inset(${inset_top}px ${inset_right}px ${inset_bottom}px ${inset_left}px)`,
-					'opacity': `${opacity}`
+					// 'opacity': `${opacity}`,
 				})
 
 				if(this_x==0 && this_y==-1){
-					$block.css('background-color','black')
+					$block.css({
+						'background-color':'gold',
+					})
 				}
 				// if(this_x==0 && this_y==-1){
 				// 	$block=$('<div>')
@@ -278,33 +281,30 @@ class Main{
 
 		let x=0;
 		let y=0;
-		let z=0;
 		img.onload = function(){
-			drawBlocks(x,y,z,true)
+			drawBlocks(x,y,true)
 		}
 		this.onResize(function(){
 			// $main.html('')
-			drawBlocks(x,y,z)
+			drawBlocks(x,y)
 		})
 		$(window).keydown(function(e){
 			if(e.key=='ArrowLeft'){
 				e.preventDefault();
 				x=x-1
-				drawBlocks(x,y,z)
+				drawBlocks(x,y)
 			}else if(e.key=='ArrowRight'){
 				e.preventDefault();
 				x=x+1
-				drawBlocks(x,y,z)
+				drawBlocks(x,y)
 			}else if(e.key=='ArrowDown'){
 				e.preventDefault();
-				// y=y+1
-				z=1
-				drawBlocks(x,y,z)
+				y=y+1
+				drawBlocks(x,y)
 			}else if(e.key=='ArrowUp'){
 				e.preventDefault();
-				// y=y-1
-				z=0
-				drawBlocks(x,y,z)
+				y=y-1
+				drawBlocks(x,y)
 			}
 		})
 
