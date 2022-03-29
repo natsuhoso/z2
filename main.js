@@ -175,7 +175,7 @@ class Main{
 				let inset_left = block_size * img_x
 
 				// let opacity = (z==0 && k==1) ? 0.5 : 1;
-				let bgc = k==0 ? 'transparent' : 'rgba(0,0,100,0.2)'
+				let bgc = k==0 ? 'transparent' : 'rgba(0,0,100,0.15)'
 
 				$block.css({
 					'background-color': bgc,
